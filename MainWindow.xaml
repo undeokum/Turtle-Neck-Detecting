@@ -1,0 +1,82 @@
+﻿<Window x:Class="TurtleNeckDetector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="C# 거북목 &amp; 학습 집중도 모니터" Height="700" Width="920">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 상단 컨트롤 & 대시보드 영역 -->
+        <Border Grid.Row="0" Background="#F4F6F9" Padding="15" CornerRadius="8" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 좌측: 세션 타이머 설정 및 시작/정지/종료 버튼 -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="측정 시간:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,8,0"/>
+                    <ComboBox x:Name="ComboDuration" Width="110" Height="30" VerticalContentAlignment="Center" Margin="0,0,15,0">
+                        <ComboBoxItem Content="30분" IsSelected="True" Tag="30"/>
+                        <ComboBoxItem Content="1시간" Tag="60"/>
+                        <ComboBoxItem Content="1시간 30분" Tag="90"/>
+                        <ComboBoxItem Content="2시간" Tag="120"/>
+                    </ComboBox>
+                    <Button x:Name="BtnStart" Content="측정 시작" Width="90" Height="30" Click="BtnStart_Click" Margin="0,0,8,0"/>
+                    <Button x:Name="BtnStop" Content="정지" Width="70" Height="30" Click="BtnStop_Click" IsEnabled="False" Margin="0,0,8,0"/>
+                    
+                    <!-- 종료 버튼 추가 -->
+                    <Button x:Name="BtnExit" Content="종료" Width="70" Height="30" Click="BtnExit_Click" 
+                            Background="#EF4444" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+
+                <!-- 우측: 상태 및 남은 시간 표시 -->
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtRemainingTime" Text="남은 시간: --:--" FontSize="16" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="TxtStatus" Text="상태: 대기 중" FontSize="14" Foreground="Gray" HorizontalAlignment="Right" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 중앙: 실시간 웹캠 화면 -->
+        <Border Grid.Row="1" Background="Black" CornerRadius="8" ClipToBounds="True">
+            <Image x:Name="CamImage" Stretch="Uniform"/>
+        </Border>
+
+        <!-- 하단: 각도 및 집중도 게이지 패널 -->
+        <Border Grid.Row="2" Background="#F4F6F9" Padding="15" CornerRadius="8" Margin="0,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 목 각도 출력 -->
+                <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtAngle" Text="목 각도: 0.0°" FontSize="18" FontWeight="Bold" Foreground="#1E3A8A"/>
+                </StackPanel>
+
+                <!-- 실시간 집중도 게이지 -->
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <Grid Margin="0,0,0,5">
+                        <TextBlock Text="학습 집중도" FontWeight="Bold"/>
+                        <TextBlock x:Name="TxtFocusScore" Text="100점 (몰입)" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#059669"/>
+                    </Grid>
+                    <ProgressBar x:Name="FocusProgressBar" Height="20" Minimum="0" Maximum="100" Value="100" Foreground="#10B981"/>
+                </StackPanel>
+
+                <!-- 세션 통계 서브 정보 -->
+                <TextBlock x:Name="TxtSessionStats" Grid.Row="1" Grid.ColumnSpan="2" Text="자세 이탈 횟수: 0회 | 감점 원인 분석 대기" 
+                           FontSize="12" Foreground="#6B7280" Margin="0,8,0,0" HorizontalAlignment="Right"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
